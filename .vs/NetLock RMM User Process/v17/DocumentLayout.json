@@ -7,12 +7,28 @@
       "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\helper\\screencapture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:helper\\screencapture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\helper\\logging.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:helper\\logging.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\application_paths.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:application_paths.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\helper\\mousecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:helper\\mousecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\helper\\keyboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:helper\\keyboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\helper\\screencapture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:helper\\screencapture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|c:\\users\\nicomak\\netlock root\\netlock-rmm-user-process\\.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{F4AB4F9E-D0FE-4DFD-A6A1-BEC5C464EB0D}|NetLock RMM User Process.csproj|solutionrelative:.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,33 +38,79 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Application_Paths.cs",
+              "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Application_Paths.cs",
+              "RelativeDocumentMoniker": "Application_Paths.cs",
+              "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Application_Paths.cs",
+              "RelativeToolTip": "Application_Paths.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAAAoAAAC3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T13:41:15.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Logging.cs",
+              "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\Logging.cs",
+              "RelativeDocumentMoniker": "Helper\\Logging.cs",
+              "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\Logging.cs",
+              "RelativeToolTip": "Helper\\Logging.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T13:38:17.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": ".gitattributes",
+              "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\.gitattributes",
+              "RelativeDocumentMoniker": ".gitattributes",
+              "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\.gitattributes",
+              "RelativeToolTip": ".gitattributes",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF8SURBVDhPjVNLTgJBEG1lwpoFB3GNK9fieA48hD8iwT/ihwgSDAIHgAGXXsEV18CNzL/LquqZdsYM6kteXqcy3fWqpmpNRBgOhyABBEgpAFVKPIMUcYzUyOU\u002BXM/b2qtU3vkSfRjjZTCAMAw1A2LwzdFoBPP5HNqdzuL27n4juibWI\u002BUshBA1DIkhEx9iEorFotgslQqGYbxxAGFEqt1MxmPWJLbLZdZ\u002Bv89q5PMFPiTR6z2zdaxR0fXA0XTBcVywkb4fwHXjRteecIDNQ7UmExVYAdPcxYaqclN46na5WenMKjtlVnTYwcXlVYaDqImW9beD5N/TeGy32QHXm6hZ03ZgiSQHp2fnWQ4oBmJqWSqwAqZpZjt4aLXAD4J0VqyZsmoubfB8H2r1eoaD6NXZ9HcHO\u002BSA3f4AjifXl8rItOETM8ckB9WTWpYD9RdeZ1PWVWAHWXPQaDb59f/w8LiqHeh1pvGkCaP6qB8yXusoxmuNZ7XmII4O9vGuEF86osuDYRkpYQAAAABJRU5ErkJggg==",
+              "WhenOpened": "2024-10-18T12:47:22.292Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "KeyboardControl.cs",
+              "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\KeyboardControl.cs",
+              "RelativeDocumentMoniker": "Helper\\KeyboardControl.cs",
+              "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\KeyboardControl.cs",
+              "RelativeToolTip": "Helper\\KeyboardControl.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAqwBoAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T12:16:59.993Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MouseControl.cs",
               "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\MouseControl.cs",
               "RelativeDocumentMoniker": "Helper\\MouseControl.cs",
               "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\MouseControl.cs",
               "RelativeToolTip": "Helper\\MouseControl.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAAAAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAxwBgAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T22:58:02.191Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-17T22:58:02.191Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "ScreenCapture.cs",
               "DocumentMoniker": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\ScreenCapture.cs",
               "RelativeDocumentMoniker": "Helper\\ScreenCapture.cs",
               "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Helper\\ScreenCapture.cs",
               "RelativeToolTip": "Helper\\ScreenCapture.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAowBQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBkAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T12:47:56.183Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-17T12:47:56.183Z"
             },
             {
               "$type": "Document",
@@ -58,7 +120,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\NicoMak\\NetLock Root\\NetLock-RMM-User-Process\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAkwGoAAABaAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-17T11:59:38.06Z",
               "EditorCaption": ""

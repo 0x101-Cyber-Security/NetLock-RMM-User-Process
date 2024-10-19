@@ -23,7 +23,7 @@ namespace Helper
         private const int VERTRES = 10; // Height of the screen
 
         // Method to capture the screen and return it as a Base64 string
-        public static string CaptureScreenToBase64(int screenIndex)
+        public static async Task<string> CaptureScreenToBase64(int screenIndex)
         {
             try
             {
@@ -70,15 +70,24 @@ namespace Helper
 
         private static ImageCodecInfo GetEncoder(ImageFormat format)
         {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (ImageCodecInfo codec in codecs)
+            try
             {
-                if (codec.FormatID == format.Guid)
+                ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+                foreach (ImageCodecInfo codec in codecs)
                 {
-                    return codec;
+                    if (codec.FormatID == format.Guid)
+                    {
+                        return codec;
+                    }
                 }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting encoder: {ex.Message}");
+                return null;
+            }
+            
         }
     }
 }
