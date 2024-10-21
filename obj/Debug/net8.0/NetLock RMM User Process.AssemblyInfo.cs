@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NetLock RMM User Process")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4a8604ca8a7e59bcd5d6be660d2d68782c3dad9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75fb294c2bd8147ddd7c155e1808cbadc8dc69c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("NetLock RMM User Process")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NetLock RMM User Process")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

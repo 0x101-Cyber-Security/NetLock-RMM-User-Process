@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 class UserClient
 {
     // Remote Server URL
-    private static string remote_server_url = "http://127.0.0.1:7338"; // Set your server URL here
+    private static string remote_server_url = "http://localhost:7338/commandHub"; // Set your server URL here
     private static HubConnection remote_server_client;
     private static Timer remote_server_clientCheckTimer;
     private static bool remote_server_client_setup = false;
@@ -30,12 +30,12 @@ class UserClient
             remote_server_client = new HubConnectionBuilder()
                .WithUrl(remote_server_url, options =>
                {
-                   options.Headers.Add("Username", Environment.UserName); // Füge den Benutzernamen zu den Headern hinzu
+                   //&options.Headers.Add("Username", Environment.UserName); // Füge den Benutzernamen zu den Headern hinzu
                })
                .Build();
 
             // Handle incoming messages
-            remote_server_client.On<string>("ReceiveMessage", async (command) =>
+            remote_server_client.On<string>("ReceiveMessageFromClient", async (command) =>
             {
                 Console.WriteLine($"Message received: {command}");
                 Command command_object = JsonSerializer.Deserialize<Command>(command);
