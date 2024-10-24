@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Net.Sockets;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Helper;
-using Microsoft.AspNetCore.SignalR.Client;
 
 class UserClient
 {
-    // Remote Server URL
-    private static string remote_server_url = "http://localhost:7338/commandHub"; // Set your server URL here
-    private static HubConnection remote_server_client;
-    private static Timer remote_server_clientCheckTimer;
-    private static bool remote_server_client_setup = false;
+    private TcpClient _client;
+    private NetworkStream _stream;
+    private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
     public class Command
     {
@@ -23,37 +23,163 @@ class UserClient
         public string remote_control_keyboard_input { get; set; }
     }
 
-    public static async Task Setup_SignalR()
+    public async Task Local_Server_Connect()
     {
         try
         {
-            remote_server_client = new HubConnectionBuilder()
-               .WithUrl(remote_server_url, options =>
-               {
-                   //&options.Headers.Add("Username", Environment.UserName); // Füge den Benutzernamen zu den Headern hinzu
-               })
-               .Build();
+            _client = new TcpClient();
+            await _client.ConnectAsync("127.0.0.1", 7338);
+            _stream = _client.GetStream();
+            // Send username to identify the user
+            string username = Environment.UserName;
+            await Local_Server_Send_Message($"username${username}");
 
-            // Handle incoming messages
-            remote_server_client.On<string>("ReceiveMessageFromClient", async (command) =>
-            {
-                Console.WriteLine($"Message received: {command}");
-                Command command_object = JsonSerializer.Deserialize<Command>(command);
-                await ProcessCommand(command_object);
-            });
+            // Start listening for messages from the server
+            _ = Local_Server_Handle_Server_Messages(_cancellationTokenSource.Token);
+            Console.WriteLine("Connected to the local server.");
 
-            // Start the connection
-            await remote_server_client.StartAsync();
-            remote_server_client_setup = true;
-            Console.WriteLine("Connected to remote server.");
+            // Start checking the connection status in a separate task
+            _ = MonitorConnectionAsync(_cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error setting up SignalR: {ex.Message}");
+            Console.WriteLine($"Failed to connect to the local server: {ex.Message}");
         }
     }
 
-    private static async Task ProcessCommand(Command command)
+
+    private ConcurrentQueue<Command> _commandQueue = new ConcurrentQueue<Command>();
+
+    private async Task Local_Server_Handle_Server_Messages(CancellationToken cancellationToken)
+    {
+        try
+        {
+            Console.WriteLine("Listening for messages from the server...");
+
+            // Buffer to read incoming data
+            byte[] buffer = new byte[4096]; // Adjust the size of the buffer as needed
+            StringBuilder messageBuilder = new StringBuilder();
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                if (_stream.CanRead)
+                {
+                    // Read the incoming message length
+                    int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+
+                    if (bytesRead > 0)
+                    {
+                        // Convert the byte array to string
+                        string messageChunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        messageBuilder.Append(messageChunk);
+
+                        // Check if the message is complete
+                        if (IsCompleteJson(messageBuilder.ToString(), out string completeMessage))
+                        {
+                            // Clear the builder for the next message
+                            messageBuilder.Clear();
+
+                            try
+                            {
+                                Console.WriteLine($"Received complete message: {completeMessage}");
+
+                                // Deserialize the complete message to Command object
+                                Command command = JsonSerializer.Deserialize<Command>(completeMessage);
+
+                                if (command != null)
+                                {
+                                    // Enqueue the command for processing
+                                    _commandQueue.Enqueue(command);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Failed to deserialize command.");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Failed to deserialize message: {ex.Message}");
+                            }
+                        }
+                    }
+                }
+
+                // Process commands from the queue
+                while (_commandQueue.TryDequeue(out Command queuedCommand))
+                {
+                    // Process the command asynchronously
+                    await ProcessCommand(queuedCommand);
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("Listening was canceled.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while listening for server messages: {ex.Message}");
+        }
+    }
+
+    // Helper method to check if the message is complete JSON
+    private bool IsCompleteJson(string json, out string completeJson)
+    {
+        completeJson = null;
+
+        // Check for valid JSON (starting and ending braces)
+        if (json.Trim().StartsWith("{") && json.Trim().EndsWith("}"))
+        {
+            // Count the braces
+            int openBraces = 0;
+            int closeBraces = 0;
+
+            foreach (char c in json)
+            {
+                if (c == '{') openBraces++;
+                if (c == '}') closeBraces++;
+            }
+
+            // If the count of open and close braces is the same, we have a complete JSON object
+            if (openBraces == closeBraces)
+            {
+                completeJson = json;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async Task ProcessMessageAsync(string message)
+    {
+        try
+        {
+            // Deserialize the message to Command object
+            Command command = JsonSerializer.Deserialize<Command>(message);
+
+            if (command != null)
+            {
+                // Enqueue the command for processing
+                _commandQueue.Enqueue(command);
+            }
+            else
+            {
+                Console.WriteLine("Failed to deserialize command.");
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            Console.WriteLine($"Failed to deserialize message: {jsonEx.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while processing the message: {ex.Message}");
+        }
+    }
+
+    // Big WIP
+    private async Task ProcessCommand(Command command)
     {
         try
         {
@@ -61,14 +187,14 @@ class UserClient
             {
                 case "0": // Screen Capture
                     string base64Image = await ScreenCapture.CaptureScreenToBase64(Convert.ToInt32(command.remote_control_screen_index));
-                    await remote_server_client.InvokeAsync("ReceiveClientResponse", $"{command.response_id}$screen_capture${base64Image}");
+                    await Local_Server_Send_Message($"screen_capture${command.response_id}${base64Image}");
                     break;
 
                 case "1": // Move Mouse
                     string[] mouseCoordinates = command.remote_control_mouse_xyz.Split(',');
                     int x = Convert.ToInt32(mouseCoordinates[0]);
                     int y = Convert.ToInt32(mouseCoordinates[1]);
-                    await MouseControl.MoveMouse(x, y);
+                    await MouseControl.MoveMouse(x, y, Convert.ToInt32(command.remote_control_screen_index));
 
                     if (command.remote_control_mouse_action == "0") // Left Click
                         await MouseControl.LeftClickMouse();
@@ -77,8 +203,27 @@ class UserClient
                     break;
 
                 case "2": // Keyboard Input
-                    byte asciiCode = Convert.ToByte(command.remote_control_keyboard_input);
-                    await KeyboardControl.SendKey(asciiCode);
+                    if (command.remote_control_keyboard_input == "Ctrl+A")
+                        KeyboardControl.SendCtrlA();
+                    else if (command.remote_control_keyboard_input == "Ctrl+C")
+                        KeyboardControl.SendCtrlC();
+                    else if (command.remote_control_keyboard_input == "Ctrl+V")
+                        KeyboardControl.SendCtrlV();
+                    else if (command.remote_control_keyboard_input == "Ctrl+X")
+                        KeyboardControl.SendCtrlX();
+                    else if (command.remote_control_keyboard_input == "Ctrl+Z")
+                        KeyboardControl.SendCtrlZ();
+                    else if (command.remote_control_keyboard_input == "Ctrl+Y")
+                        KeyboardControl.SendCtrlY();
+                    else
+                    {
+                        byte asciiCode = Convert.ToByte(command.remote_control_keyboard_input);
+                        await KeyboardControl.SendKey(asciiCode); // Send the ASCII code of the key
+                    }
+                    break;
+                case "3":
+                    int screen_indexes = ScreenCapture.Get_Screen_Indexes();
+                    await Local_Server_Send_Message($"screen_indexes${command.response_id}${screen_indexes}");
                     break;
 
                 default:
@@ -92,32 +237,72 @@ class UserClient
         }
     }
 
-    public static async Task CheckConnectionStatus()
+    public async Task Local_Server_Send_Message(string message)
     {
-        if (remote_server_client_setup && remote_server_client.State == HubConnectionState.Disconnected)
+        try
         {
-            Console.WriteLine("Connection lost. Trying to reconnect...");
-            try
+            if (_stream != null && _client.Connected)
             {
-                await remote_server_client.StartAsync();
-                Console.WriteLine("Reconnected to the server.");
+                byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+                await _stream.WriteAsync(messageBytes, 0, messageBytes.Length);
+                await _stream.FlushAsync();
+                Console.WriteLine("Sent message to remote agent");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Reconnection failed: {ex.Message}");
-            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to send message to the local server: {ex.Message}");
         }
     }
 
-    public static async Task Disconnect()
+    private async Task MonitorConnectionAsync(CancellationToken cancellationToken)
     {
-        if (remote_server_client != null)
+        while (!cancellationToken.IsCancellationRequested)
         {
-            await remote_server_client.StopAsync();
-            await remote_server_client.DisposeAsync();
-            remote_server_client_setup = false;
-            Console.WriteLine("Disconnected from server.");
+            // Check if the client is still connected
+            if (_client == null || !_client.Connected)
+            {
+                Console.WriteLine("Disconnected from the server. Attempting to reconnect...");
+
+                // Try to reconnect
+                while (!_client.Connected && !cancellationToken.IsCancellationRequested)
+                {
+                    try
+                    {
+                        _client = new TcpClient();
+                        await _client.ConnectAsync("127.0.0.1", 7338);
+                        _stream = _client.GetStream();
+
+                        // Send username to identify the user
+                        string username = Environment.UserName;
+                        await Local_Server_Send_Message($"username${username}");
+                        Console.WriteLine("Reconnected to the local server.");
+
+                        // Restart listening for messages
+                        _ = Local_Server_Handle_Server_Messages(cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Reconnect attempt failed: {ex.Message}");
+                        await Task.Delay(5000, cancellationToken); // Wait before retrying
+                    }
+                }
+            }
+
+            // Wait for a while before the next check
+            await Task.Delay(5000, cancellationToken); // Check every 5 seconds
         }
+
+        // Clean up resources if disconnected
+        Disconnect();
+    }
+
+    public void Disconnect()
+    {
+        _cancellationTokenSource.Cancel();
+        _stream?.Close();
+        _client?.Close();
+        Console.WriteLine("Disconnected from the server.");
     }
 }
 
@@ -129,19 +314,12 @@ class Program
         {
             Console.WriteLine("Starting User Process...");
 
-            await UserClient.Setup_SignalR();
-
-            // Timer that checks every 15 seconds if the client is still connected
-            Timer timer = new Timer(async _ =>
-            {
-                await UserClient.CheckConnectionStatus();
-            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
-
-            // Keep the application running until manually exited
-            Console.WriteLine("Press 'q' to disconnect and exit.");
-            while (Console.ReadLine()?.ToLower() != "q") { }
-
-            await UserClient.Disconnect();
+            var client = new UserClient();
+            await client.Local_Server_Connect();
+            // Keep the application running to listen for server messages
+            Console.WriteLine("Press Enter to disconnect...");
+            Console.ReadLine();
+            client.Disconnect();
         }
         catch (Exception ex)
         {

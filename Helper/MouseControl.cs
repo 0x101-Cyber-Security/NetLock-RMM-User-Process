@@ -22,12 +22,72 @@ namespace Helper
         private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
         private const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
-        public static async Task MoveMouse(int x, int y)
+        // P/Invoke für Monitorinformationen
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MonitorInfo
+        {
+            public uint Size;
+            public Rect Monitor;
+            public Rect Work;
+            public uint Flags;
+        }
+
+        public delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData);
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumDelegate lpfnEnum, IntPtr dwData);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfo lpmi);
+
+        // Methode zum Abrufen aller Bildschirme
+        public static Rect[] GetAllScreens()
+        {
+            var screens = new System.Collections.Generic.List<Rect>();
+
+            EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData) =>
+            {
+                MonitorInfo mi = new MonitorInfo();
+                mi.Size = (uint)Marshal.SizeOf(mi);
+                if (GetMonitorInfo(hMonitor, ref mi))
+                {
+                    screens.Add(mi.Monitor);
+                }
+                return true;
+            }, IntPtr.Zero);
+
+            return screens.ToArray();
+        }
+
+        // Angepasste Methode zum Bewegen der Maus auf dem richtigen Bildschirm
+        public static async Task MoveMouse(int x, int y, int screenIndex)
         {
             try
             {
-                // Setze den Mauszeiger an die angegebenen Koordinaten
-                SetCursorPos(x, y);
+                var screens = GetAllScreens();
+
+                if (screenIndex >= screens.Length)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(screenIndex), "Ungültiger Bildschirmindex.");
+                }
+
+                var screen = screens[screenIndex];
+
+                // Berechne die absoluten Koordinaten für den angegebenen Bildschirm
+                int absoluteX = screen.Left + x;
+                int absoluteY = screen.Top + y;
+
+                // Setze den Mauszeiger auf die berechneten absoluten Koordinaten
+                SetCursorPos(absoluteX, absoluteY);
             }
             catch (Exception ex)
             {
@@ -54,9 +114,9 @@ namespace Helper
         {
             try
             {
-                // Simulate a right mouse click
-                mouse_event(0x0008, 0, 0, 0, 0); // Right mouse button down
-                mouse_event(0x0010, 0, 0, 0, 0); // Right mouse button up
+                // Simuliere einen rechten Mausklick
+                mouse_event(0x0008, 0, 0, 0, 0); // Rechte Maustaste drücken
+                mouse_event(0x0010, 0, 0, 0, 0); // Rechte Maustaste loslassen
             }
             catch (Exception ex)
             {
@@ -64,4 +124,5 @@ namespace Helper
             }
         }
     }
+
 }

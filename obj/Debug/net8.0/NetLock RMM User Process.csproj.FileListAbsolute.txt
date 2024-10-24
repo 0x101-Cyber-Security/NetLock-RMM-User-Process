@@ -18,18 +18,3 @@ C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\runtimes
 C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\obj\Debug\net8.0\NetLock RMM User Process.csproj.AssemblyReference.cache
 C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\obj\Debug\net8.0\NetLock .28C6681C.Up2Date
 C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\obj\Debug\net8.0\NetLock RMM User Process.sourcelink.json
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.Connections.Abstractions.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Connections.Client.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Connections.Common.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Common.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.Features.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
-C:\Users\NicoMak\NetLock Root\NetLock-RMM-User-Process\bin\Debug\net8.0\System.IO.Pipelines.dll
