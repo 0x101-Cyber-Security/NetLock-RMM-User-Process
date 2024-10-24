@@ -21,7 +21,7 @@ namespace Logging
         {
             try
             {
-                if (File.Exists(Application_Paths.program_data_debug_txt))
+                if (File.Exists(Application_Paths.application_data_debug_txt))
                     return true;
                 else
                     return false;
@@ -34,8 +34,8 @@ namespace Logging
 
         private static void Check_Dir()
         {
-            if (!Directory.Exists(Application_Paths.program_data_logs))
-                Directory.CreateDirectory(Application_Paths.program_data_logs);
+            if (!Directory.Exists(Application_Paths.application_data_logs))
+                Directory.CreateDirectory(Application_Paths.application_data_logs);
         }
 
         public static void Debug(string reported_by, string _event, string content)
@@ -61,7 +61,7 @@ namespace Logging
 
                 string log_json = JsonSerializer.Serialize(json_object, options);
 
-                File.AppendAllText(Application_Paths.program_data_logs + @"\Debug.txt", log_json + Environment.NewLine);
+                File.AppendAllText(Application_Paths.application_data_logs + @"\Debug.txt", log_json + Environment.NewLine);
             }
             catch
             { }
@@ -85,7 +85,7 @@ namespace Logging
 
                 string log_json = JsonSerializer.Serialize(json_object);
 
-                File.AppendAllText(Application_Paths.program_data_logs + @"\Error.txt", log_json + Environment.NewLine);
+                File.AppendAllText(Application_Paths.application_data_logs + @"\Error.txt", log_json + Environment.NewLine);
             }
             catch
             { }

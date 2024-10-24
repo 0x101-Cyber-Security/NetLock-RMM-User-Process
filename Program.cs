@@ -316,10 +316,9 @@ class Program
 
             var client = new UserClient();
             await client.Local_Server_Connect();
-            // Keep the application running to listen for server messages
-            Console.WriteLine("Press Enter to disconnect...");
-            Console.ReadLine();
-            client.Disconnect();
+
+            // Keep the application running until termination is requested.
+            await Task.Delay(-1); // Block forever (or until you quit the app)
         }
         catch (Exception ex)
         {
